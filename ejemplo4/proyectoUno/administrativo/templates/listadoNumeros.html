@@ -6,7 +6,7 @@
 
 {% block content %}
 <h2>Listado de Numeros Telefónicos</h2>
-<table>
+<table id="tabla_datos">
   <thead>
     <tr>
       <th>Nombre de Persona</th>
@@ -28,6 +28,7 @@
     {% endfor %}
   </tbody>
 </table>
+
 <script type="text/javascript">
   $(document).ready( function () {
     $('#tabla_datos').DataTable();
