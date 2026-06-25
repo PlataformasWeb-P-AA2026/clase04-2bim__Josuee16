@@ -52,6 +52,11 @@ class NumeroTelefonicoForm(ModelForm):
     class Meta:
         model = NumeroTelefonico
         fields = ['telefono', 'tipo', 'estudiante']
+    def clean_telefono(self):
+        valor = self.cleaned_data['telefono']
+        if not valor.startswith("099") and not valor.startswith("098"):
+            raise forms.ValidationError("Ingrese número de teléfono Movistar o Claro")
+        return valor
 
 
 class NumeroTelefonicoEstudianteForm(ModelForm):
@@ -61,6 +66,12 @@ class NumeroTelefonicoEstudianteForm(ModelForm):
         self.initial['estudiante'] = estudiante
         self.fields["estudiante"].widget = forms.widgets.HiddenInput()
         print(estudiante)
+        
+    def clean_telefono(self):
+        valor = self.cleaned_data['telefono']
+        if not valor.startswith("099") and not valor.startswith("098"):
+            raise forms.ValidationError("Ingrese número de teléfono Movistar o Claro")
+        return valor
 
     class Meta:
         model = NumeroTelefonico
