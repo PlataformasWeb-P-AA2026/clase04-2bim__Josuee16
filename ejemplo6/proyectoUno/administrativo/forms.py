@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 from django import forms
 
-from administrativo.models import Estudiante, \
+from administrativo.models import Comentario, Estudiante, \
         NumeroTelefonico
 
 class EstudianteForm(ModelForm):
@@ -68,3 +68,19 @@ class NumeroTelefonicoEstudianteForm(ModelForm):
     class Meta:
         model = NumeroTelefonico
         fields = ['telefono', 'tipo', 'estudiante']
+
+
+class ComentarioForm(ModelForm):
+    class Meta:
+        model = Comentario
+        fields = ['username', 'correo', 'comentario']
+        labels = {
+            'username': _('Ingrese su nombre de usuario'),
+            'correo': _('Ingrese su correo electrónico'),
+            'comentario': _('Ingrese su comentario'),
+        }
+    def clean_comentario(self):
+        valor = self.cleaned_data['comentario']
+        if len(valor) < 25:
+            raise forms.ValidationError("Ingrese un comentario de al menos 25 caracteres")
+        return valor
