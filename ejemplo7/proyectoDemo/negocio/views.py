@@ -11,7 +11,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from negocio.models import Chef, Plato, Restaurante
 
 # importar los formularios de forms.py
-from negocio.forms import RestauranteForm, ChefForm, PlatoForm
+from negocio.forms import ComentarioForm, RestauranteForm, ChefForm, PlatoForm
 
 def ingreso(request):
 
@@ -151,3 +151,21 @@ def ver_plato(request, id):
     informacion_template = {'objeto': plato}
     return render(request, 'ver_plato.html',
                   informacion_template)
+@login_required(login_url='/entrando/login/')
+def crear_comentario(request):
+    """
+    """
+    if request.method=='POST':
+        formulario = ComentarioForm(request.POST, user=request.user)
+        print(formulario.errors)
+        if formulario.is_valid():
+            comentario = formulario.save(commit=False)
+            comentario.username = request.user.username
+            comentario.correo = request.user.email or ''
+            comentario.save()
+            return redirect(index)
+    else:
+        formulario = ComentarioForm(user=request.user)
+    diccionario = {'formulario': formulario}
+
+    return render(request, 'crearComentario.html', diccionario)
