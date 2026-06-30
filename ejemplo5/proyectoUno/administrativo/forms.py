@@ -52,6 +52,11 @@ class NumeroTelefonicoForm(ModelForm):
     class Meta:
         model = NumeroTelefonico
         fields = ['telefono', 'tipo', 'estudiante']
+        labels = {
+            'telefono': _('Ingrese número de teléfono por favor'),
+            'tipo': _('Ingrese tipo de teléfono por favor'),
+        }
+
     def clean_telefono(self):
         valor = self.cleaned_data['telefono']
         if not valor.startswith("099") and not valor.startswith("098"):
